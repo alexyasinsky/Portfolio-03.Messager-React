@@ -1,6 +1,6 @@
 
-import MessageForm from "./MessageForm";
-import MessageList from "./MessageList";
+import MessageForm from "./components/MessageForm";
+import MessageList from "./components/MessageList";
 
 import moment from "moment";
 import {useEffect, useState} from "react";

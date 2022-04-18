@@ -1,6 +1,6 @@
 
-import ChatList from "../../components/ChatList/ChatlList";
-import Messages from './components/Messages';
+import ChatList from "./components/ChatList/ChatlList";
+import Messages from './components/Messages/Messages';
 
 import {Grid, List, Paper} from "@mui/material";
 
@@ -9,7 +9,6 @@ import { Outlet } from 'react-router-dom';
 
 
 export default function Chats ({user}) {
-
   return (
     <Grid container spacing={2}>
       <Grid item container  xs={3}>
