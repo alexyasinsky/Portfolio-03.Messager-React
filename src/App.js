@@ -3,23 +3,11 @@ import Chats from "./pages/chats/Chats";
 import Messages from './pages/chats/components/Messages/Messages';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import Home from './pages/home/Home';
-import {BottomNavigation, BottomNavigationAction, Grid} from "@mui/material";
-import SvgIcon from '@mui/material/SvgIcon';
-import { mdiChatOutline } from '@mdi/js';
+import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
+import { mdiChatOutline, mdiHomeCircle } from '@mdi/js';
 import Icon from "@mdi/react";
-import {useState} from "react";
 import Area from "./components/Area/Area";
-
-
-function HomeIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-    </SvgIcon>
-  );
-}
-
-
+import {useState} from "react";
 
 function App() {
 
@@ -37,12 +25,12 @@ function App() {
             </Route>
             <Route path='/chats' element={<Chats user={user}/>}>
               <Route path=":id" element={<Messages />} />
-              <Route path="default" element={<Area className='chats__empty'> Выберите собеседника</Area>} />
+              <Route path="default" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
           </Routes>
         </Grid>
         <Grid item xs={12}>
-          <Area>
+          <Paper>
             <BottomNavigation
               showLabels
               value={value}
@@ -52,12 +40,12 @@ function App() {
             >
               <BottomNavigationAction
                 label="Home"
-                icon={<HomeIcon fontSize="large"/>}
+                icon={<Icon path={mdiHomeCircle}/>}
                 component={NavLink}
                 to='/'
               />
               <BottomNavigationAction
-                label="Favorites"
+                label="Chats"
                 icon={<Icon path={mdiChatOutline}/>}
                 component={NavLink}
                 to='/chats/default'
@@ -65,7 +53,7 @@ function App() {
               <BottomNavigationAction label="Empty1"/>
               <BottomNavigationAction label="Empty2"/>
             </BottomNavigation>
-          </Area>
+          </Paper>
         </Grid>
       </Grid>
     </div>

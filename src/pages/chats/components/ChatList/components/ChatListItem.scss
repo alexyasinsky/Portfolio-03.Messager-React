@@ -2,4 +2,15 @@
   &__avatar {
     margin-right: 10px;
   }
+
+  &__link {
+    text-decoration: none;
+    color: unset;
+    display: inline-block;
+    width: 166px;
+  }
+}
+
+.active {
+  background-color: lightgray;
 }

@@ -30,21 +30,21 @@ export default function Messages ({user}) {
   }, [messages]);
 
   return (
-    <>
+    <Grid container direction="column" rowSpacing={4}>
       <Grid item xs>
-            <Paper elevation={3} className='messages__area'>
-              <div className='messages__list'>
-                <MessageList
-                  messages={messages}
-                  user={user}
-                />
-              </div>
-            </Paper>
-          </Grid>
-          <Grid item xs>
-            <MessageForm addMessage={addMessage} user={user}/>
-          </Grid>
-    </>
+        <Paper elevation={3} className='messages__area'>
+          <div className='messages__list'>
+            <MessageList
+              messages={messages}
+              user={user}
+            />
+          </div>
+        </Paper>
+      </Grid>
+      <Grid item xs>
+        <MessageForm addMessage={addMessage} user={user}/>
+      </Grid>
+    </Grid>
     
   )
 }

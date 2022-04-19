@@ -1,12 +1,9 @@
 
 import ChatList from "./components/ChatList/ChatlList";
-import Messages from './components/Messages/Messages';
-
 import {Grid, List, Paper} from "@mui/material";
-
-import './Chats.scss';
 import { Outlet } from 'react-router-dom';
 
+import './Chats.scss';
 
 export default function Chats ({user}) {
   return (
@@ -20,10 +17,8 @@ export default function Chats ({user}) {
           </Paper>
         </Grid>
       </Grid>
-      <Grid item container xs direction="column" rowSpacing={4}>
-        <Outlet>
-          <Messages user={user}/>
-        </Outlet>
+      <Grid item xs>
+        <Outlet user={user}/>
       </Grid>
     </Grid>
   )
