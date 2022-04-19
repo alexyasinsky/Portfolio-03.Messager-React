@@ -8,7 +8,7 @@ export default function ChatListItem(props) {
 
   return (
     <NavLink
-      to={buddy.id}
+      to={buddy.name}
       className="chat__link"
     >
       <ListItem button>

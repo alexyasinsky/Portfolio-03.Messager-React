@@ -24,7 +24,7 @@ function App() {
             <Route path='/' element={<Home/>}>
             </Route>
             <Route path='/chats' element={<Chats user={user}/>}>
-              <Route path=":id" element={<Messages />} />
+              <Route path=":buddy" element={<Messages user={user}/>} />
               <Route path="default" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
           </Routes>

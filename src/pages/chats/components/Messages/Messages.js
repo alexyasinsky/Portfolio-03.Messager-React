@@ -5,8 +5,11 @@ import MessageList from "./components/MessageList";
 import moment from "moment";
 import {useEffect, useState} from "react";
 import {Grid, Paper} from "@mui/material";
+import {useParams} from "react-router-dom";
 
 export default function Messages ({user}) {
+
+  const {buddy} = useParams();
 
   let [messages, setMessages] = useState([]);
 
@@ -17,17 +20,17 @@ export default function Messages ({user}) {
   };
 
   useEffect(() => {
-    if (messages.length !==0 && !(messages[messages.length - 1].author === 'bot')) {
+    if (messages.length !==0 && !(messages[messages.length - 1].author === buddy)) {
       setTimeout(() => {
         let message = [{
           date: moment().format('LTS'),
-          author: 'bot',
+          author: buddy,
           text: `${messages[messages.length - 1].text}?`
         }];
         addMessage(message);
       }, 1500);
     }
-  }, [messages]);
+  }, [messages, buddy]);
 
   return (
     <Grid container direction="column" rowSpacing={4}>
