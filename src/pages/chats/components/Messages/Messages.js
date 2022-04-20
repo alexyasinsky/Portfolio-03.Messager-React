@@ -7,6 +7,8 @@ import {useCallback, useEffect, useState} from "react";
 import {Grid, Paper} from "@mui/material";
 import {useParams, Navigate} from "react-router-dom";
 
+import "./Messages.scss";
+
 
 export default function Messages ({user, buddies}) {
 

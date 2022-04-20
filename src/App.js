@@ -7,14 +7,34 @@ import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/materi
 import { mdiChatOutline, mdiHomeCircle } from '@mdi/js';
 import Icon from "@mdi/react";
 import Area from "./components/Area/Area";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import faker from "@faker-js/faker";
 
 function App() {
 
-  const user = 'Alex';
+  const user = {
+    name: 'Alex',
+    id: faker.datatype.uuid(),
+    avatar: faker.image.avatar(),
+  };
 
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    pathname.replace(/\/*/, "");
+    switch (pathname) {
+      case "/":
+        setValue(0);
+        break;
+      case "/chats":
+        setValue(1);
+        break;
+      default:
+        break;
+    }
+  }, []);
+
 
   const buddies = Array.from({
     length: 5,
@@ -33,7 +53,7 @@ function App() {
             <Route path='/' element={<Home/>}>
             </Route>
             <Route path='/chats' element={<Chats user={user} buddies={buddies}/>}>
-              <Route path=":buddy" element={<Messages user={user} buddies={buddies}/>} />
+              <Route path=":buddy" element={<Messages user={user.name} buddies={buddies}/>} />
               <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
           </Routes>

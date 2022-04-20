@@ -1,13 +1,12 @@
-import ChatListItem from "./components/ChatListItem";
-
 import {ListItem} from "@mui/material";
+import BuddyItem from "./components/BuddyItem/BuddyItem";
 
-export default function ChatList ({buddies}) {
 
+export default function BuddiesList({buddies}) {
   return (
     buddies.map((buddy) =>
       <ListItem key={buddy.id} >
-        <ChatListItem  item = {buddy}/>
+        <BuddyItem buddy={buddy}/>
       </ListItem>
     )
   )

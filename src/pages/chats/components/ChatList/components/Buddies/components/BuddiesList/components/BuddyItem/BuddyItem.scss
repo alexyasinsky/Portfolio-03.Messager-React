@@ -1,4 +1,4 @@
-.chat {
+.buddyItem {
   &__avatar {
     margin-right: 10px;
   }
@@ -8,6 +8,10 @@
     color: unset;
     display: inline-block;
     width: 166px;
+  }
+
+  &__delete {
+
   }
 }
 
