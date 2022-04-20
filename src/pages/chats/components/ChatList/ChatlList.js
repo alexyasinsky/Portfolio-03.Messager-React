@@ -1,19 +1,11 @@
 import ChatListItem from "./components/ChatListItem";
-import faker from "@faker-js/faker";
+
 import {ListItem} from "@mui/material";
 
-const list = Array.from({
-  length: 5,
-}).map(() => ({
-  id: faker.datatype.uuid(),
-  avatar: faker.image.avatar(),
-  name: faker.name.firstName()
-}));
-
-export default function ChatList () {
+export default function ChatList ({buddies}) {
 
   return (
-    list.map((buddy) =>
+    buddies.map((buddy) =>
       <ListItem key={buddy.id} >
         <ChatListItem  item = {buddy}/>
       </ListItem>

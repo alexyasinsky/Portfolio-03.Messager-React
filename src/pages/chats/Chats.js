@@ -5,20 +5,20 @@ import { Outlet } from 'react-router-dom';
 
 import './Chats.scss';
 
-export default function Chats ({user}) {
+export default function Chats ({user, buddies}) {
   return (
     <Grid container spacing={2}>
       <Grid item container  xs={3}>
         <Grid item xs>
           <Paper elevation={3} className='chats__list'>
             <List>
-              <ChatList/>
+              <ChatList buddies={buddies}/>
             </List>
           </Paper>
         </Grid>
       </Grid>
       <Grid item xs>
-        <Outlet user={user}/>
+        <Outlet/>
       </Grid>
     </Grid>
   )

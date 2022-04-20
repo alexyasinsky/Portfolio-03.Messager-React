@@ -3,34 +3,49 @@ import MessageForm from "./components/MessageForm";
 import MessageList from "./components/MessageList";
 
 import moment from "moment";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Grid, Paper} from "@mui/material";
-import {useParams} from "react-router-dom";
+import {useParams, Navigate} from "react-router-dom";
 
-export default function Messages ({user}) {
+
+export default function Messages ({user, buddies}) {
+
+  let initMessages = {};
+  buddies.forEach(buddy => {
+    Object.assign(initMessages, {[buddy.name] : []})
+  })
+
 
   const {buddy} = useParams();
 
-  let [messages, setMessages] = useState([]);
+  let [messages, setMessages] = useState(initMessages);
 
-  const addMessage = (message) => {
-    setMessages(prevState => {
-      return prevState.concat(message);
-    });
-  };
+  const addMessage = useCallback((newMessage) => {
+    setMessages({...messages, [buddy]: [...messages[buddy], newMessage]});
+  }, [buddy, messages]);
 
   useEffect(() => {
-    if (messages.length !==0 && !(messages[messages.length - 1].author === buddy)) {
-      setTimeout(() => {
-        let message = [{
-          date: moment().format('LTS'),
-          author: buddy,
-          text: `${messages[messages.length - 1].text}?`
-        }];
-        addMessage(message);
-      }, 1500);
+    let dialog = messages[buddy];
+    let timerId = null;
+    if (dialog) {
+      if (dialog.length !==0 && !(dialog[dialog.length - 1].author === buddy)) {
+        timerId = setTimeout(() => {
+          let message = {
+            date: moment().format('LTS'),
+            author: buddy,
+            text: `${dialog[dialog.length - 1].text}?`
+          };
+          addMessage(message);
+        }, 1500);
+      }
     }
-  }, [messages, buddy]);
+
+    return () => clearTimeout(timerId);
+  }, [messages, addMessage, buddy]);
+  
+  if (!messages[buddy]) {
+    return <Navigate replace to='/chats' />
+  }
 
   return (
     <Grid container direction="column" rowSpacing={4}>
@@ -38,7 +53,7 @@ export default function Messages ({user}) {
         <Paper elevation={3} className='messages__area'>
           <div className='messages__list'>
             <MessageList
-              messages={messages}
+              messages={messages[buddy]}
               user={user}
             />
           </div>

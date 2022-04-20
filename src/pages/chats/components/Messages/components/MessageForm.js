@@ -18,6 +18,7 @@ export default function MessageForm ({addMessage, user}) {
       text: text
     };
     addMessage(message);
+    setText('');
   }
 
   const textAreaRef = useRef(null);

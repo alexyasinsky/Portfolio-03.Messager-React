@@ -8,12 +8,21 @@ import { mdiChatOutline, mdiHomeCircle } from '@mdi/js';
 import Icon from "@mdi/react";
 import Area from "./components/Area/Area";
 import {useState} from "react";
+import faker from "@faker-js/faker";
 
 function App() {
 
   const user = 'Alex';
 
   const [value, setValue] = useState(0);
+
+  const buddies = Array.from({
+    length: 5,
+  }).map(() => ({
+    id: faker.datatype.uuid(),
+    avatar: faker.image.avatar(),
+    name: faker.name.firstName()
+  }));
 
   return (
 
@@ -23,9 +32,9 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}>
             </Route>
-            <Route path='/chats' element={<Chats user={user}/>}>
-              <Route path=":buddy" element={<Messages user={user}/>} />
-              <Route path="default" element={<Area height={650}>Выберите собеседника</Area>} />
+            <Route path='/chats' element={<Chats user={user} buddies={buddies}/>}>
+              <Route path=":buddy" element={<Messages user={user} buddies={buddies}/>} />
+              <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
           </Routes>
         </Grid>
@@ -48,7 +57,7 @@ function App() {
                 label="Chats"
                 icon={<Icon path={mdiChatOutline}/>}
                 component={NavLink}
-                to='/chats/default'
+                to='/chats'
               />
               <BottomNavigationAction label="Empty1"/>
               <BottomNavigationAction label="Empty2"/>
