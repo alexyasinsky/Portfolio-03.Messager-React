@@ -34,15 +34,33 @@ function App() {
         break;
     }
   }, []);
-
-
-  const buddies = Array.from({
+ 
+  const initBuddies = Array.from({
     length: 5,
   }).map(() => ({
     id: faker.datatype.uuid(),
     avatar: faker.image.avatar(),
     name: faker.name.firstName()
   }));
+
+  let [buddies, setBuddies] = useState(initBuddies);
+
+
+  function addBuddy(name) {
+    let buddy = {
+      id: faker.datatype.uuid(),
+      avatar: faker.image.avatar(),
+      name: name
+    };
+    setBuddies([buddy, ...buddies]);
+  }
+
+  function deleteBuddy(name) {
+    let index = buddies.findIndex(item => item.name === name);
+    const newBuddies = [...buddies];
+    newBuddies.splice(index, 1);
+    setBuddies(newBuddies);
+  }
 
   return (
 
@@ -52,7 +70,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}>
             </Route>
-            <Route path='/chats' element={<Chats user={user} buddies={buddies}/>}>
+            <Route path='/chats' element={<Chats user={user} buddies={buddies} addBuddy={addBuddy} deleteBuddy={deleteBuddy}/>}>
               <Route path=":buddy" element={<Messages user={user.name} buddies={buddies}/>} />
               <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
