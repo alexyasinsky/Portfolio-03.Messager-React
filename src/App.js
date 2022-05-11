@@ -1,14 +1,20 @@
-import './App.scss';
-import Chats from "./pages/chats/Chats";
-import Messages from './pages/chats/components/Messages/Messages';
 import { Routes, Route, NavLink } from 'react-router-dom';
-import Home from './pages/home/Home';
-import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
-import { mdiChatOutline, mdiHomeCircle } from '@mdi/js';
-import Icon from "@mdi/react";
-import Area from "./components/Area/Area";
 import {useEffect, useState} from "react";
 import faker from "@faker-js/faker";
+import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
+import { mdiChatOutline, mdiHomeCircle, mdiAccount } from '@mdi/js';
+import Icon from "@mdi/react";
+import {Provider} from "react-redux";
+
+import Chats from "./pages/chats/Chats";
+import Messages from './pages/chats/components/Messages/Messages';
+import Profile from './pages/profile/Profile';
+import Area from "./components/Area/Area";
+import Home from "./pages/home/Home";
+import {store} from "./store";
+
+import './App.scss';
+
 
 function App() {
 
@@ -64,19 +70,20 @@ function App() {
 
   return (
 
-    <div className="App">
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+    <Provider store={store}>
+      <div className="App">
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
           <Routes>
-            <Route path='/' element={<Home/>}>
-            </Route>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/profile' element={<Profile/>}/>
             <Route path='/chats' element={<Chats user={user} buddies={buddies} addBuddy={addBuddy} deleteBuddy={deleteBuddy}/>}>
               <Route path=":buddy" element={<Messages user={user.name} buddies={buddies}/>} />
               <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
           </Routes>
         </Grid>
-        <Grid item xs={12}>
+          <Grid item xs={12}>
           <Paper>
             <BottomNavigation
               showLabels
@@ -92,21 +99,26 @@ function App() {
                 to='/'
               />
               <BottomNavigationAction
+                label="Profile"
+                icon={<Icon path={mdiAccount}/>}
+                component={NavLink}
+                to='/profile'
+              />
+              <BottomNavigationAction
                 label="Chats"
                 icon={<Icon path={mdiChatOutline}/>}
                 component={NavLink}
                 to='/chats'
               />
-              <BottomNavigationAction label="Empty1"/>
-              <BottomNavigationAction label="Empty2"/>
+
+              <BottomNavigationAction label="Empty"/>
             </BottomNavigation>
           </Paper>
         </Grid>
-      </Grid>
-    </div>
+        </Grid>
+      </div>
+    </Provider>
 
-
-    
   );
 }
 
