@@ -12,10 +12,12 @@ export default function BuddyItem({buddy}) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   function handleDeleteButton() {
     dispatch(deleteChat(buddy.name));
     navigate('/chats');
   }
+
   function handleLink() {
     dispatch(initMessagesStore(buddy.name))
     navigate(`/chats/${buddy.name}`);

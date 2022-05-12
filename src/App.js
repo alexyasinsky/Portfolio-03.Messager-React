@@ -3,41 +3,47 @@ import {useEffect, useState} from "react";
 import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
 import { mdiChatOutline, mdiHomeCircle, mdiAccount } from '@mdi/js';
 import Icon from "@mdi/react";
-import {Provider} from "react-redux";
+
+import './App.scss';
 
 import Chats from "./pages/chats/Chats";
 import Messages from './pages/chats/components/Messages/Messages';
 import Profile from './pages/profile/Profile';
 import Area from "./components/Area/Area";
 import Home from "./pages/home/Home";
-import {store} from "./store";
 
-import './App.scss';
 
+
+
+function highlightLinkButton(highlightFunc) {
+  const pathname = window.location.pathname;
+  let pathArray = pathname.split('/');
+  switch (pathArray[1]) {
+    case "":
+      highlightFunc(0);
+      break;
+    case "profile":
+      highlightFunc(1);
+      break;
+    case "chats":
+      highlightFunc(2);
+      break;
+    default:
+      break;
+  }
+}
 
 function App() {
-
-  const [value, setValue] = useState(0);
+  const [highlightLinkNumber, setHighlightLinkNumber] = useState(0);
 
   useEffect(() => {
-    const pathname = window.location.pathname;
-    pathname.replace(/\/*/, "");
-    switch (pathname) {
-      case "/":
-        setValue(0);
-        break;
-      case "/chats":
-        setValue(1);
-        break;
-      default:
-        break;
-    }
+    highlightLinkButton(setHighlightLinkNumber);
   }, []);
 
   return (
 
-    <Provider store={store}>
-      <div className="App">
+
+        <div className="App">
         <Grid container spacing={2}>
           <Grid item xs={12}>
           <Routes>
@@ -53,9 +59,9 @@ function App() {
           <Paper>
             <BottomNavigation
               showLabels
-              value={value}
+              value={highlightLinkNumber}
               onChange={(event, newValue) => {
-                setValue(newValue);
+                setHighlightLinkNumber(newValue);
               }}
             >
               <BottomNavigationAction
@@ -83,7 +89,6 @@ function App() {
         </Grid>
         </Grid>
       </div>
-    </Provider>
 
   );
 }

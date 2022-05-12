@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import moment from "moment";
 import {Button, Grid, TextareaAutosize} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {addMessage} from "../../../../../store/messages/actions";
+import {addMessageWithReply} from "../../../../../store/messages/actions";
 import {selectName} from "../../../../../store/profile/selectors";
 
 export default function MessageForm ({buddy}) {
@@ -22,7 +22,7 @@ export default function MessageForm ({buddy}) {
       author: author,
       text: text
     };
-    dispatch(addMessage(message, buddy))
+    dispatch(addMessageWithReply(message, buddy))
     setText('');
   }
 
