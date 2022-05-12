@@ -9,19 +9,18 @@ import {useParams, Navigate} from "react-router-dom";
 
 import "./Messages.scss";
 import {useDispatch, useSelector} from "react-redux";
-import {addMessage, initMessagesStore} from "../../../../store/messages/actions";
+import {addMessage} from "../../../../store/messages/actions";
 import {selectMessages} from "../../../../store/messages/selectors";
+import {selectChats} from "../../../../store/chats/selectors";
 
 
 export default function Messages () {
 
   const dispatch = useDispatch();
   const {buddy} = useParams();
-  useEffect(()=> {
-    dispatch(initMessagesStore(buddy));
-  }, [dispatch, buddy]);
 
   const messages = useSelector(selectMessages);
+
 
   useEffect(() => {
     let dialog = messages[buddy];
@@ -41,8 +40,14 @@ export default function Messages () {
 
     return () => clearTimeout(timerId);
   }, [messages, dispatch, buddy]);
-  
-  if (!messages[buddy]) {
+
+  const chats = useSelector(selectChats);
+
+  let buddies = chats.reduce((acc, chat) => {
+    acc.push(chat.name);
+    return acc;
+  }, []);
+  if (!buddies.includes(buddy)) {
     return <Navigate replace to='/chats' />
   }
 

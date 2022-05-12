@@ -1,23 +1,30 @@
 import {Avatar, IconButton, ListItem, ListItemText} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 
 import {deleteChat} from "../../../../../../../../../../store/chats/actions";
 
 import './BuddyItem.scss';
+import {initMessagesStore} from "../../../../../../../../../../store/messages/actions";
 
 export default function BuddyItem({buddy}) {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   function handleDeleteButton() {
     dispatch(deleteChat(buddy.name));
+    navigate('/chats');
+  }
+  function handleLink() {
+    dispatch(initMessagesStore(buddy.name))
+    navigate(`/chats/${buddy.name}`);
   }
 
   return (
     <>
-      <NavLink
-        to={buddy.name}
+      <div
+        onClick={handleLink}
         className="buddyItem__link"
       >
         <ListItem button>
@@ -26,7 +33,7 @@ export default function BuddyItem({buddy}) {
             primary={buddy.name}
           />
         </ListItem>
-      </NavLink>
+      </div>
       <IconButton onClick={handleDeleteButton}>
         <DeleteIcon/>
       </IconButton>

@@ -14,9 +14,9 @@
 export const INIT_MESSAGES_STORE = 'MESSAGES::INIT_MESSAGES_STORE';
 export const ADD_MESSAGE = 'MESSAGES::ADD_MESSAGE';
 
-export const initMessagesStore = (basicStructure) => ({
+export const initMessagesStore = (buddyName) => ({
   type: INIT_MESSAGES_STORE,
-  payload: basicStructure
+  payload: buddyName
 });
 
 export const addMessage = (message, buddy) => ({

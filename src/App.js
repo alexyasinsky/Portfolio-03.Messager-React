@@ -1,6 +1,5 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import {useEffect, useState} from "react";
-import faker from "@faker-js/faker";
 import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
 import { mdiChatOutline, mdiHomeCircle, mdiAccount } from '@mdi/js';
 import Icon from "@mdi/react";
@@ -17,12 +16,6 @@ import './App.scss';
 
 
 function App() {
-
-  const user = {
-    name: 'Alex',
-    id: faker.datatype.uuid(),
-    avatar: faker.image.avatar(),
-  };
 
   const [value, setValue] = useState(0);
 
@@ -50,8 +43,8 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/profile' element={<Profile/>}/>
-            <Route path='/chats' element={<Chats user={user} />}>
-              <Route path=":buddy" element={<Messages user={user.name}/>} />
+            <Route path='/chats' element={<Chats />}>
+              <Route path=":buddy" element={<Messages/>} />
               <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
             </Route>
           </Routes>

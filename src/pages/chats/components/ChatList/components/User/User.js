@@ -2,8 +2,11 @@ import {NavLink} from "react-router-dom";
 import {Avatar, ListItem, ListItemText} from "@mui/material";
 
 import "./User.scss";
+import {useSelector} from "react-redux";
+import {selectProfile} from "../../../../../../store/profile/selectors";
 
-export default function User ({user}) {
+export default function User () {
+  const user = useSelector(selectProfile);
   return (
     <NavLink
       to="/"
