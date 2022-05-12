@@ -1,13 +1,17 @@
 import {Avatar, IconButton, ListItem, ListItemText} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {NavLink} from "react-router-dom";
+import {useDispatch} from "react-redux";
+
+import {deleteChat} from "../../../../../../../../../../store/chats/actions";
 
 import './BuddyItem.scss';
-import {NavLink} from "react-router-dom";
 
-export default function BuddyItem({buddy, deleteBuddy}) {
+export default function BuddyItem({buddy}) {
 
+  const dispatch = useDispatch();
   function handleDeleteButton() {
-    deleteBuddy(buddy.name);
+    dispatch(deleteChat(buddy.name));
   }
 
   return (

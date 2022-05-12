@@ -6,12 +6,12 @@ import User from "./components/User/User";
 import "./ChatList.scss";
 
 
-export default function ChatList ({user, buddies, addBuddy, deleteBuddy}) {
+export default function ChatList () {
   return (
       <Paper elevation={3} className='chatlist'>
-          <User user={user}/>
-          <Buddies buddies={buddies} deleteBuddy={deleteBuddy}/>
-          <ChatAddForm addBuddy={addBuddy}/>
+          <User/>
+          <Buddies/>
+          <ChatAddForm/>
       </Paper>
   )
 }

@@ -3,28 +3,25 @@ import MessageForm from "./components/MessageForm";
 import MessageList from "./components/MessageList";
 
 import moment from "moment";
-import {useCallback, useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
 import {useParams, Navigate} from "react-router-dom";
 
 import "./Messages.scss";
+import {useDispatch, useSelector} from "react-redux";
+import {addMessage, initMessagesStore} from "../../../../store/messages/actions";
+import {selectMessages} from "../../../../store/messages/selectors";
 
 
-export default function Messages ({user, buddies}) {
+export default function Messages () {
 
-  let initMessages = {};
-  buddies.forEach(buddy => {
-    Object.assign(initMessages, {[buddy.name] : []})
-  })
-
-
+  const dispatch = useDispatch();
   const {buddy} = useParams();
+  useEffect(()=> {
+    dispatch(initMessagesStore(buddy));
+  }, [dispatch, buddy]);
 
-  let [messages, setMessages] = useState(initMessages);
-
-  const addMessage = useCallback((newMessage) => {
-    setMessages({...messages, [buddy]: [...messages[buddy], newMessage]});
-  }, [buddy, messages]);
+  const messages = useSelector(selectMessages);
 
   useEffect(() => {
     let dialog = messages[buddy];
@@ -37,13 +34,13 @@ export default function Messages ({user, buddies}) {
             author: buddy,
             text: `${dialog[dialog.length - 1].text}?`
           };
-          addMessage(message);
+          dispatch(addMessage(message, buddy));
         }, 1500);
       }
     }
 
     return () => clearTimeout(timerId);
-  }, [messages, addMessage, buddy]);
+  }, [messages, dispatch, buddy]);
   
   if (!messages[buddy]) {
     return <Navigate replace to='/chats' />
@@ -56,13 +53,12 @@ export default function Messages ({user, buddies}) {
           <div className='messages__list'>
             <MessageList
               messages={messages[buddy]}
-              user={user}
             />
           </div>
         </Paper>
       </Grid>
       <Grid item xs>
-        <MessageForm addMessage={addMessage} user={user}/>
+        <MessageForm buddy={buddy}/>
       </Grid>
     </Grid>
     

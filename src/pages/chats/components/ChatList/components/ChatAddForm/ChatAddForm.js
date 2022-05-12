@@ -1,14 +1,18 @@
 import {Button, Grid, TextField} from "@mui/material";
 import { useState } from 'react';
+import {useDispatch} from "react-redux";
+
+import {addChat} from "../../../../../../store/chats/actions";
 
 import "./ChatAddForm.scss";
 
-export default function ChatAddForm ({addBuddy}) {
+export default function ChatAddForm () {
 
   const [buddyName, setBuddyName] = useState('');
 
+  const dispatch = useDispatch();
   function handleAddButton() {
-    addBuddy(buddyName);
+    dispatch(addChat(buddyName));
     setBuddyName('');
   }
 

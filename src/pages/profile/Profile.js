@@ -2,10 +2,12 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {toggleCheckBox} from "../../store/profile/actions";
 import Area from "../../components/Area/Area";
+import {selectName, selectShowName} from "../../store/profile/selectors";
 
 export default function Profile () {
 
-  const state = useSelector(state => state);
+  const name = useSelector(selectName);
+  const showName = useSelector(selectShowName);
   const dispatch = useDispatch();
   const handleCheckbox = () => {
     dispatch(toggleCheckBox)
@@ -18,12 +20,12 @@ export default function Profile () {
           Скрыть/Показать имя
           <input
             type="checkbox"
-            checked={state.showName}
+            checked={showName}
             onChange={handleCheckbox}
           />
         </label>
         <br/>
-        {state.showName && state.name}
+        {showName && name}
       </div>
     </Area >
   )

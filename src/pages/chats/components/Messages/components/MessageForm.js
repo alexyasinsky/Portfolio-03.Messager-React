@@ -1,14 +1,19 @@
 import {useEffect, useRef, useState} from "react";
 import moment from "moment";
 import {Button, Grid, TextareaAutosize} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {addMessage} from "../../../../../store/messages/actions";
+import {selectName} from "../../../../../store/profile/selectors";
 
-export default function MessageForm ({addMessage, user}) {
-  const author = user;
+export default function MessageForm ({buddy}) {
+  const author = useSelector(selectName);
   let [text, setText] = useState('');
 
   function handleText (event) {
     setText(event.target.value);
   }
+
+  const dispatch = useDispatch();
 
   function handleMessage(e) {
     e.preventDefault();
@@ -17,7 +22,7 @@ export default function MessageForm ({addMessage, user}) {
       author: author,
       text: text
     };
-    addMessage(message);
+    dispatch(addMessage(message, buddy))
     setText('');
   }
 

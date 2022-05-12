@@ -3,7 +3,8 @@ import BuddiesList from "./components/BuddiesList/BuddiesList";
 
 import "./Buddies.scss";
 
-export default function Buddies ({buddies, deleteBuddy}) {
+export default function Buddies () {
+
 
   return (
     <div className="buddies">
@@ -11,7 +12,7 @@ export default function Buddies ({buddies, deleteBuddy}) {
          Друзья:
       </Typography>
       <List>
-        <BuddiesList buddies={buddies} deleteBuddy={deleteBuddy}/>
+        <BuddiesList/>
       </List>
     </div>
   )

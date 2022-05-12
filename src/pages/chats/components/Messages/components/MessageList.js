@@ -1,6 +1,9 @@
 import {Typography} from "@mui/material";
+import {useSelector} from "react-redux";
+import {selectName} from "../../../../../store/profile/selectors";
 
-export default function MessageList ({messages, user}) {
+export default function MessageList ({messages}) {
+  const user = useSelector(selectName);
   if (messages.length === 0) {
     return (
       <Typography variant="h6" className='messages__empty'>
@@ -9,7 +12,7 @@ export default function MessageList ({messages, user}) {
     )
   } else {
     return messages.map((message, ind) => {
-      let className = '';
+      let className;
       message.author === user ? className = 'messages__item messages__item_user' : className = 'messages__item';
       return (
         <div key={ind} className={className}>
