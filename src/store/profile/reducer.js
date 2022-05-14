@@ -1,4 +1,4 @@
-import {TOGGLE_CHECKBOX} from "./actions";
+import {SET_NAME, TOGGLE_CHECKBOX} from "./actions";
 import faker from "@faker-js/faker";
 
 const initialState = {
@@ -15,6 +15,12 @@ export const profileReducer = (state = initialState, action) => {
         ...state,
         showName: !state.showName
       }
+    case SET_NAME: {
+      return {
+        ...state,
+        name: action.newName,
+      };
+    }
     default:
       return state;
   }

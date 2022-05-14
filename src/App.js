@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
 import { mdiChatOutline, mdiHomeCircle, mdiAccount } from '@mdi/js';
 import Icon from "@mdi/react";
+import { onAuthStateChanged } from "@firebase/auth";
 
 import './App.scss';
 
@@ -11,6 +12,9 @@ import Messages from './pages/chats/components/Messages/Messages';
 import Profile from './pages/profile/Profile';
 import Area from "./components/Area/Area";
 import Home from "./pages/home/Home";
+import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute";
+import {PublicRoute} from "./components/PublicRoute/PublicRoute";
+import {auth} from "./services/firebase";
 
 
 
@@ -36,6 +40,26 @@ function highlightLinkButton(highlightFunc) {
 function App() {
   const [highlightLinkNumber, setHighlightLinkNumber] = useState(0);
 
+  const [authed, setAuthed] = useState(false);
+
+  const handleLogin = () => {
+    setAuthed(true);
+  };
+  const handleLogout = () => {
+    setAuthed(false);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        handleLogin();
+      } else {
+        handleLogout();
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   useEffect(() => {
     highlightLinkButton(setHighlightLinkNumber);
   }, []);
@@ -47,11 +71,24 @@ function App() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
           <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/profile' element={<Profile/>}/>
-            <Route path='/chats' element={<Chats />}>
-              <Route path=":buddy" element={<Messages/>} />
-              <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
+            <Route path="/" element={<PublicRoute authed={authed} />}>
+              <Route
+                path=""
+                element={<Home />}
+              />
+              <Route
+                path="signup"
+                element={<Home isSignUp />}
+              />
+            </Route>
+            <Route path='/profile' element={<PrivateRoute authed={authed}/>}>
+              <Route path="" element={<Profile/>} />
+            </Route>
+            <Route path='/chats' element={<PrivateRoute authed={authed}/>}>
+              <Route path='' element={<Chats />}>
+                <Route path=":id" element={<Messages/>} />
+                <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
+              </Route>
             </Route>
           </Routes>
         </Grid>
@@ -86,6 +123,7 @@ function App() {
               <BottomNavigationAction label="Empty"/>
             </BottomNavigation>
           </Paper>
+
         </Grid>
         </Grid>
       </div>
