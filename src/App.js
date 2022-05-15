@@ -15,8 +15,8 @@ import Home from "./pages/home/Home";
 import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute";
 import {PublicRoute} from "./components/PublicRoute/PublicRoute";
 import {auth} from "./services/firebase";
-
-
+import {getUsersListDB} from "./store/chats/actions";
+import {useDispatch} from "react-redux";
 
 
 function highlightLinkButton(highlightFunc) {
@@ -37,24 +37,31 @@ function highlightLinkButton(highlightFunc) {
   }
 }
 
-function App() {
+export default function App() {
+
   const [highlightLinkNumber, setHighlightLinkNumber] = useState(0);
 
   const [authed, setAuthed] = useState(false);
 
   const handleLogin = () => {
+
     setAuthed(true);
   };
   const handleLogout = () => {
     setAuthed(false);
   };
 
+  const dispatch = useDispatch;
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         handleLogin();
+        setHighlightLinkNumber(1);
+
       } else {
         handleLogout();
+        setHighlightLinkNumber(0);
       }
     });
     return unsubscribe;
@@ -62,10 +69,9 @@ function App() {
 
   useEffect(() => {
     highlightLinkButton(setHighlightLinkNumber);
-  }, []);
+  }, [highlightLinkNumber]);
 
   return (
-
 
         <div className="App">
         <Grid container spacing={2}>
@@ -87,7 +93,7 @@ function App() {
             <Route path='/chats' element={<PrivateRoute authed={authed}/>}>
               <Route path='' element={<Chats />}>
                 <Route path=":id" element={<Messages/>} />
-                <Route path="" element={<Area height={650}>Выберите собеседника</Area>} />
+                <Route path="" element={<Area height={650} justText>Выберите собеседника</Area>} />
               </Route>
             </Route>
           </Routes>
@@ -119,8 +125,6 @@ function App() {
                 component={NavLink}
                 to='/chats'
               />
-
-              <BottomNavigationAction label="Empty"/>
             </BottomNavigation>
           </Paper>
 
@@ -130,5 +134,3 @@ function App() {
 
   );
 }
-
-export default App;

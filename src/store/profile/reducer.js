@@ -1,15 +1,16 @@
-import {SET_NAME, TOGGLE_CHECKBOX} from "./actions";
-import faker from "@faker-js/faker";
+import {SET_NAME, SET_PROFILE, TOGGLE_CHECKBOX} from "./actions";
 
 const initialState = {
-  showName: false,
-  name: 'Alex',
-  id: faker.datatype.uuid(),
-  avatar: faker.image.avatar(),
+
 }
 
-export const profileReducer = (state = initialState, action) => {
-  switch (action.type) {
+export const profileReducer = (state = initialState, {type, payload}) => {
+  switch (type) {
+    case SET_PROFILE:
+      return {
+        ...state,
+        ...payload
+      };
     case TOGGLE_CHECKBOX:
       return {
         ...state,
@@ -18,7 +19,7 @@ export const profileReducer = (state = initialState, action) => {
     case SET_NAME: {
       return {
         ...state,
-        name: action.newName,
+        name: payload,
       };
     }
     default:

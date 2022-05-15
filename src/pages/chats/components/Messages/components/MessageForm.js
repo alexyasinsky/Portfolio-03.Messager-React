@@ -27,8 +27,7 @@ export default function MessageForm ({id}) {
   //   dispatch(addMessageWithReply(message, 'bot'))
   //   setText('');
   // }
-  function handleMessage(e) {
-    e.preventDefault();
+  function handleMessage() {
     push(getMsgsListRefById(id), {
       author: auth.currentUser.email,
       text,

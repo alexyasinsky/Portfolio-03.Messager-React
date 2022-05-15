@@ -27,7 +27,7 @@ export const auth = getAuth(app);
 export const db = getDatabase(app);
 
 export const signUp = async (email, pass) => {
-  await createUserWithEmailAndPassword(auth, email, pass);
+  return await createUserWithEmailAndPassword(auth, email, pass);
 };
 export const logIn = async (email, pass) => {
   await signInWithEmailAndPassword(auth, email, pass);
@@ -36,11 +36,13 @@ export const logOut = async () => {
   await signOut(auth);
 };
 
-export const userRef = ref(db, "user");
-export const userNameRef = ref(db, "user/name");
-export const userShowNameRef = ref(db, "user/showName");
 export const chatsRef = ref(db, "chats");
 export const msgsRef = ref(db, "messages");
+export const getUsersRefById = id => ref(db, `users/${id}`);
+export const getUserChatRefByIdAndNickname = (id, nickname) => ref(db, `users/${id}/chats/${nickname}`);
+export const getUserChatsRefById = id => ref(db, `users/${id}/chats`);
+export const getUserNickNameRefById = id => ref(db, `users/${id}/nickname`);
+export const getNicknameFromNicknames = nickname => ref(db, `nicknames/${nickname}`);
 export const getChatRefById = (id) => ref(db, `chats/${id}`);
 export const getMsgsRefById = (chatId) => ref(db, `messages/${chatId}`);
 export const getMsgsListRefById = (chatId) => ref(db, `messages/${chatId}/messageList`);

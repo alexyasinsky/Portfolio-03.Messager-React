@@ -1,6 +1,9 @@
 import { useState } from "react";
+import {Button, ButtonGroup, TextField} from "@mui/material";
 
-export const LoginForm = ({ onSubmit }) => {
+import './loginform.scss';
+
+export const LoginForm = ({ onLogin, onSignIn}) => {
   const [login, setLogin] = useState("");
   const [pass, setPass] = useState("");
 
@@ -11,19 +14,40 @@ export const LoginForm = ({ onSubmit }) => {
     setPass(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ login, pass });
+  const handleLogInButton = () => {
+    onLogin({ login, pass });
+    setLogin("");
+    setPass("");
+  };
 
+  const handleSignInButton = () => {
+    onSignIn({ login, pass });
     setLogin("");
     setPass("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      email <input type="email" value={login} onChange={handleChangeLogin} /> <br/>
-      pass <input type="password" value={pass} onChange={handleChangePass} /> <br/>
-      <input type="submit" />
-    </form>
+    <>
+      <div className='login__box'>
+        <TextField type="email" label='email 'value={login} onChange={handleChangeLogin} /> <br/>
+        <TextField type="password" label='password' value={pass} onChange={handleChangePass} /> <br/>
+      </div>
+      <ButtonGroup variant="text" aria-label="text button group">
+      <Button
+
+        type='submit'
+        onClick={handleSignInButton}
+      >
+        Зарегистрироваться
+      </Button>
+      <Button
+
+        type='submit'
+        onClick={handleLogInButton}
+      >
+        Войти
+      </Button>
+      </ButtonGroup>
+    </>
   );
 };

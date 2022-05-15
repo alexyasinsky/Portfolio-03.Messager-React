@@ -1,41 +1,47 @@
-// import Area from "../../components/Area/Area";
-//
-// export default function Home () {
-//   return (
-//     <Area height={650}>
-//         Добро пожаловать!
-//     </Area >
-//   )
-// }
-
-import {Link} from "react-router-dom";
 import {useState} from "react";
+import {Typography} from "@mui/material";
+import faker from "@faker-js/faker";
+import {push, set} from "@firebase/database";
+
 import {LoginForm} from "./components/LoginForm";
-import {logIn, signUp} from "../../services/firebase";
+import {db, getUserChatsRefById, getUsersRefById, logIn, signUp, usersListRef} from "../../services/firebase";
+import Area from "../../components/Area/Area";
+import {ref} from "firebase/database";
 
 
-
-export default function Home ({ isSignUp }) {
+export default function Home () {
   const [error, setError] = useState("");
-  const handleSubmit = async ({ login, pass }) => {
+  const onLogin = async ({ login, pass }) => {
     try {
-      if (isSignUp) {
-        await signUp(login, pass);
-      } else {
-        await logIn(login, pass);
-      }
+      await logIn(login, pass);
     } catch (e) {
       setError(e.message);
     }
   };
+  const onSignIn = async ({ login, pass }) => {
+    try {
+      const response = await signUp(login, pass);
+      const id = response.user.uid;
+      const email = response.user.email;
+      await set(getUsersRefById(id), {
+        id: id,
+        email: email,
+        avatar: faker.image.avatar(),
+      });
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const errorStyle = {
+    color: 'red'
+  }
+
   return (
-    <>
-      <h4>Home page</h4>
-      <LoginForm onSubmit={handleSubmit} />
-      {error && <h5>{error}</h5>}
-      <Link to={isSignUp ? "/" : "/signup"}>
-        {isSignUp ? "to login" : "to signup"}
-      </Link>
-    </>
+    <Area elevation={3} height={650}>
+      <Typography variant="h6">Введите логин и пароль</Typography>
+      <LoginForm onLogin={onLogin} onSignIn={onSignIn} />
+      {error && <Typography variant="h6" style={errorStyle}>{error}</Typography>}
+    </Area>
   );
 };

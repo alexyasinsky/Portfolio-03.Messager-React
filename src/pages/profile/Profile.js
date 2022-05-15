@@ -1,24 +1,21 @@
 import {useDispatch, useSelector} from "react-redux";
 
-import {initProfileTrack, setNameFB, setShowName, stopProfileTrack} from "../../store/profile/actions";
+// import {initProfileTrack, setNameFB, setShowName, stopProfileTrack} from "../../store/profile/actions";
 import Area from "../../components/Area/Area";
-import {selectName, selectShowName} from "../../store/profile/selectors";
+import {selectProfile} from "../../store/profile/selectors";
 import {logOut} from "../../services/firebase";
-import {Form} from "../../components/Form/Form";
+import {ProfileForm} from "./components/ProfileForm/ProfileForm";
 import {useEffect} from "react";
+import {initProfileTrack, setNickNameFB, stopProfileTrack} from "../../store/profile/actions";
+import {Avatar, Button, Typography} from "@mui/material";
 
 export default function Profile () {
 
-  const name = useSelector(selectName);
-  const showName = useSelector(selectShowName);
+  const profile = useSelector(selectProfile);
   const dispatch = useDispatch();
 
-  const handleCheckbox = () => {
-    dispatch(setShowName(!showName))
-  }
-
   const handleSubmit = (text) => {
-    dispatch(setNameFB(text));
+    dispatch(setNickNameFB(text));
   };
 
   useEffect(() => {
@@ -29,24 +26,29 @@ export default function Profile () {
     };
   }, [dispatch]);
 
+  const ProfileCardStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
 
 
   return (
     <Area height={650}>
-      <div>
-        <label>
-          Скрыть/Показать имя
-          <input
-            type="checkbox"
-            checked={showName}
-            onChange={handleCheckbox}
-          />
-        </label>
-        <br/>
-        {showName && name}
+      <div style={ProfileCardStyle}>
+        <Avatar alt={profile.nickname} src={profile.avatar} sx={{ width: 120, height: 120 }}/>
+        <ProfileForm
+          onSubmit={handleSubmit}
+        />
       </div>
-      <button onClick={logOut}>LOGOUT</button>
-      <Form onSubmit={handleSubmit} />
+      <Button
+        variant="contained"
+        color='error'
+        onClick={logOut}
+
+      >
+        Выйти из профиля
+      </Button>
     </Area >
   )
 }

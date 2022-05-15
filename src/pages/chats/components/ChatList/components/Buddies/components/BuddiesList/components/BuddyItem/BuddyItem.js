@@ -15,9 +15,9 @@ export default function BuddyItem({buddy}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function handleDeleteButton() {
-    remove(getChatRefById(buddy.id));
-    set(getMsgsRefById(buddy.id), null);
+  async function handleDeleteButton() {
+    await remove(getChatRefById(buddy.id));
+    await set(getMsgsRefById(buddy.id), null);
     // dispatch(deleteChat(buddy.name));
     navigate('/chats');
   }

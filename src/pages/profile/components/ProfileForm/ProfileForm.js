@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import {TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 
 
-export const Form = ({ onSubmit }) => {
+export const ProfileForm = ({ onSubmit }) => {
   const [value, setValue] = useState("");
 
   const inputRef = useRef();
@@ -23,11 +23,24 @@ export const Form = ({ onSubmit }) => {
     inputRef.current?.focus();
   }, []);
 
+  const formStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 20,
+    borderRadius: 10,
+    border: '1px solid grey',
+    margin: '20px auto'
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={formStyle}>
+      <Typography variant='h6'>Ввести/изменить ник</Typography>
       <TextField value={value} onChange={handleChange} inputRef={inputRef} />
+      <br/>
+      <br/>
       <Button type="submit" variant="contained">
-        Submit
+        Подтвердить
       </Button>
     </form>
   );

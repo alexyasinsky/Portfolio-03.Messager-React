@@ -6,16 +6,16 @@ import {useSelector} from "react-redux";
 import {selectProfile} from "../../../../../../store/profile/selectors";
 
 export default function User () {
-  const user = useSelector(selectProfile);
+  const profile = useSelector(selectProfile);
   return (
     <NavLink
       to="/"
       className="user__link"
     >
       <ListItem button>
-        <Avatar alt={user.name} src={user.avatar} className={'user__avatar'} />
+        <Avatar alt={profile.nickname} src={profile.avatar} className={'user__avatar'} />
         <ListItemText
-          primary={user.name}
+          primary={profile.nickname}
         />
       </ListItem>
     </NavLink>
