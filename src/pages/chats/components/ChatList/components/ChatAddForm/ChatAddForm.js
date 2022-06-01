@@ -16,32 +16,33 @@ import {
 } from "../../../../../../services/firebase";
 import {selectUsersList} from "../../../../../../store/chats/selectors";
 import {selectProfile} from "../../../../../../store/profile/selectors";
+import {setProfile} from "../../../../../../store/profile/actions";
 
 
 export default function ChatAddForm () {
 
-  const [nickname, setNickname] = useState('');
+  const [buddyNickname, setBuddyNickname] = useState('');
 
   const profile = useSelector(selectProfile);
 
   // const dispatch = useDispatch();
 
   async function handleAddButton() {
-    onValue(getNicknameFromNicknames(nickname), snapshot => {
+    onValue(getNicknameFromNicknames(buddyNickname), snapshot => {
       if (snapshot.exists()) {
         const buddyId = snapshot.val();
-        onValue(getUserChatRefByIdAndNickname(profile.id, nickname), snapshot => {
+        onValue(getUserChatRefByIdAndNickname(profile.id, buddyNickname), snapshot => {
           let chatId;
           if (snapshot.exists()) {
             chatId = snapshot.val();
           } else {
             chatId = push(msgsRef, {exists: true}).key;
           }
-
-          set(getUserChatRefByIdAndNickname(profile.id, nickname), {nickname, chatId});
-          set(getUserChatRefByIdAndNickname(buddyId, profile.nickname), {nickname:profile.nickname, chatId});
+          debugger
+          set(getUserChatRefByIdAndNickname(profile.id, buddyNickname), {userId:buddyId, chatId});
+          set(getUserChatRefByIdAndNickname(buddyId, profile.nickname), {userId:profile.id, chatId});
         })
-        setNickname('');
+        setBuddyNickname('');
       } else {
         alert('Пользователь с таким ником не зарегистрирован');
       }
@@ -49,7 +50,7 @@ export default function ChatAddForm () {
   }
 
   function handleInput(event) {
-    setNickname(event.target.value);
+    setBuddyNickname(event.target.value);
   }
 
   return (
@@ -58,7 +59,7 @@ export default function ChatAddForm () {
         <TextField
           label="Введите ник"
           variant="outlined"
-          value={nickname}
+          value={buddyNickname}
           onChange={handleInput}
         />
       </Grid>

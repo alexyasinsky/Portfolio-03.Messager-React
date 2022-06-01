@@ -2,14 +2,9 @@ import { onValue, set } from "@firebase/database";
 import {auth, db, getUserNickNameRefById, getUsersRefById} from "../../services/firebase";
 import {ref} from "firebase/database";
 
-
-export const TOGGLE_CHECKBOX = 'PROFILE::TOGGLE_CHECKBOX';
 export const SET_NAME = "PROFILE::SET_NAME";
 export const SET_PROFILE = 'PROFILE::GET_PROFILE';
 
-export const toggleCheckBox = {
-  type: TOGGLE_CHECKBOX
-}
 
 export const setNickName = (nickname) => ({
   type: SET_NAME,

@@ -20,7 +20,7 @@ export default function ChatList () {
 
   useEffect(() => {
     dispatch(initChatsFB(profile.id));
-  }, [dispatch]);
+  }, [profile, dispatch]);
 
   return (
       <Paper elevation={3} className='chatlist'>

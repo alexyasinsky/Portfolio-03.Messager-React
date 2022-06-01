@@ -35,8 +35,10 @@ export default function Profile () {
 
   return (
     <Area height={650}>
+
       <div style={ProfileCardStyle}>
         <Avatar alt={profile.nickname} src={profile.avatar} sx={{ width: 120, height: 120 }}/>
+        <Typography variant='h4'>Привет, {profile.nickname}!</Typography>
         <ProfileForm
           onSubmit={handleSubmit}
         />
