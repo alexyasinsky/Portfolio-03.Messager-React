@@ -8,24 +8,25 @@ import {deleteChat} from "../../../../../../../../../../store/chats/actions";
 
 import './BuddyItem.scss';
 import {initMessagesStore} from "../../../../../../../../../../store/messages/actions";
-import {getChatRefById, getMsgsRefById} from "../../../../../../../../../../services/firebase";
+import { getMsgsRefById} from "../../../../../../../../../../services/firebase";
 
-export default function BuddyItem({buddy}) {
+export default function BuddyItem({buddyId}) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+ const buddy = {};
   async function handleDeleteButton() {
-    await remove(getChatRefById(buddy.id));
-    await set(getMsgsRefById(buddy.id), null);
-    // dispatch(deleteChat(buddy.name));
-    navigate('/chats');
+  //   // await remove(getChatsRefById(buddy.id));
+  //   await set(getMsgsRefById(buddy.id), null);
+  //   // dispatch(deleteChat(buddy.name));
+  //   navigate('/chats');
   }
-
+  //
   function handleLink() {
-    // dispatch(initMessagesStore(buddy.name))
-    // navigate(`/chats/${buddy.name}`);
-    navigate(`/chats/${buddy.id}`);
+  //   // dispatch(initMessagesStore(buddy.name))
+  //   // navigate(`/chats/${buddy.name}`);
+  //   navigate(`/chats/${buddy.id}`);
   }
 
   return (

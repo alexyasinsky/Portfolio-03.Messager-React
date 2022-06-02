@@ -1,14 +1,13 @@
 import {Button, Grid, TextField} from "@mui/material";
 import { useState } from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {onValue, push, remove, set} from "@firebase/database";
+import {onValue, push, remove, set, get} from "@firebase/database";
 
 import {addChat} from "../../../../../../store/chats/actions";
 
 import "./ChatAddForm.scss";
 import {
-  auth,
-  getChatRefById,
+  auth, getMessagesIdRefFromChats,
   getMsgsRefById, getNicknameFromNicknames, getUserChatRefByIdAndNickname,
   getUsersRefById, msgsRef,
   usersListRef,
@@ -28,19 +27,18 @@ export default function ChatAddForm () {
   // const dispatch = useDispatch();
 
   async function handleAddButton() {
-    onValue(getNicknameFromNicknames(buddyNickname), snapshot => {
+    get(getNicknameFromNicknames(buddyNickname)).then(snapshot => {
       if (snapshot.exists()) {
         const buddyId = snapshot.val();
-        onValue(getUserChatRefByIdAndNickname(profile.id, buddyNickname), snapshot => {
-          let chatId;
-          if (snapshot.exists()) {
-            chatId = snapshot.val();
-          } else {
-            chatId = push(msgsRef, {exists: true}).key;
-          }
-          debugger
-          set(getUserChatRefByIdAndNickname(profile.id, buddyNickname), {userId:buddyId, chatId});
-          set(getUserChatRefByIdAndNickname(buddyId, profile.nickname), {userId:profile.id, chatId});
+        get(getMessagesIdRefFromChats(buddyId, profile.id)).then(snapshot => {
+          let messagesId;
+            if (snapshot.exists()) {
+              messagesId = snapshot.val();
+            } else {
+              messagesId = push(msgsRef, {exists: true}).key;
+              set(getMessagesIdRefFromChats(buddyId, profile.id), messagesId);
+            }
+            set(getMessagesIdRefFromChats(profile.id, buddyId), messagesId);
         })
         setBuddyNickname('');
       } else {
@@ -48,6 +46,7 @@ export default function ChatAddForm () {
       }
     });
   }
+
 
   function handleInput(event) {
     setBuddyNickname(event.target.value);

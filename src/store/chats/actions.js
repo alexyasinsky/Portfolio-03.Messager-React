@@ -1,5 +1,5 @@
 import {onValue, get} from "@firebase/database";
-import {getUserChatsRefById, getUsersRefById} from "../../services/firebase";
+import {getChatsRefById, getUsersRefById} from "../../services/firebase";
 
 
 export const SET_CHATS = 'CHATS::SET_CHATS';
@@ -11,9 +11,9 @@ const setChats = (chats) => ({
   type: SET_CHATS,
   payload: chats
 })
-export const addChat = (name) => ({
+export const addChat = (buddy) => ({
   type: ADD_CHAT,
-  payload: name,
+  payload: buddy,
 });
 
 export const deleteChat = (name) => ({
@@ -23,19 +23,18 @@ export const deleteChat = (name) => ({
 
 
 export const initChatsFB = (id) => (dispatch) => {
-  onValue(getUserChatsRefById(id), snapshot => {
+  onValue(getChatsRefById(id), snapshot => {
     const chats = snapshot.val();
-    debugger
-    for (let chat in chats) {
-      get(getUsersRefById(chat.nickname)).then(snapshot => {
+    for (let buddyId in chats) {
+      get(getUsersRefById(buddyId)).then(snapshot => {
         debugger
-        const value = snapshot.val();
-        chat = {...chat, ...value};
+        const buddy = snapshot.val();
+        dispatch('addChat', buddy);
       })
+
     }
-    debugger
-    const chatsArray = Object.values(chats);
-    dispatch(setChats(chatsArray));
+    // const chatsArray = Object.values(chats);
+    // dispatch(setChats(chatsArray));
   });
 }
 

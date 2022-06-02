@@ -11,14 +11,14 @@ import {ref} from "firebase/database";
 
 export default function Home () {
   const [error, setError] = useState("");
-  const onLogin = async ({ login, pass }) => {
+  const onLogIn = async ({ login, pass }) => {
     try {
       await logIn(login, pass);
     } catch (e) {
       setError(e.message);
     }
   };
-  const onSignIn = async ({ login, pass }) => {
+  const onSignUp = async ({ login, pass }) => {
     try {
       const response = await signUp(login, pass);
       const id = response.user.uid;
@@ -40,7 +40,7 @@ export default function Home () {
   return (
     <Area elevation={3} height={650}>
       <Typography variant="h6">Введите логин и пароль</Typography>
-      <LoginForm onLogin={onLogin} onSignIn={onSignIn} />
+      <LoginForm onLogin={onLogIn} onSignIn={onSignUp} />
       {error && <Typography variant="h6" style={errorStyle}>{error}</Typography>}
     </Area>
   );
