@@ -1,24 +1,25 @@
 import faker from "@faker-js/faker";
-import {ADD_CHAT, DELETE_CHAT, SET_CHATS} from "./actions";
+import {CLEAR_CHAT_STORE, SET_BUDDIES, SET_CHATS} from "./actions";
 
-const initialState = [];
+const initialState = {
+  buddies: [],
+  chats: {}
+};
 
 export const chatsReducer = (state = initialState, {type, payload}) => {
   switch (type) {
+    case SET_BUDDIES:
+      return {
+        chats: state.chats,
+        buddies: [...payload]
+      }
     case SET_CHATS:
-      debugger
-      return [...payload];
-    case ADD_CHAT:
-      debugger
-      return [...state, payload];
-      // let buddy = {
-      //   id: faker.datatype.uuid(),
-      //   avatar: faker.image.avatar(),
-      //   name: payload
-      // };
-      // return [...state, buddy];
-    case DELETE_CHAT:
-      // return state.filter(({ name }) => name !== payload);
+      return {
+        chats: {...payload},
+        buddies: state.buddies
+      }
+    case CLEAR_CHAT_STORE:
+      return initialState;
     default:
       return state;
   }

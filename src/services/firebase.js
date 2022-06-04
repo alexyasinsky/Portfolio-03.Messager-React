@@ -39,10 +39,9 @@ export const logOut = async () => {
 export const chatsRef = ref(db, "chats");
 export const msgsRef = ref(db, "messages");
 export const getUsersRefById = id => ref(db, `users/${id}`);
-export const getUserChatRefByIdAndNickname = (id, nickname) => ref(db, `users/${id}/chats/${nickname}`);
 export const getUserNickNameRefById = id => ref(db, `users/${id}/nickname`);
 export const getNicknameFromNicknames = nickname => ref(db, `nicknames/${nickname}`);
 export const getMessagesIdRefFromChats = (profileId, buddyId) => ref(db, `chats/${profileId}/${buddyId}`);
-export const getChatsRefById = (id) => ref(db, `chats/${id}`);
-export const getMsgsRefById = (chatId) => ref(db, `messages/${chatId}`);
-export const getMsgsListRefById = (chatId) => ref(db, `messages/${chatId}/messageList`);
+export const getProfileChatsRefById = (id) => ref(db, `chats/${id}`);
+export const getCurrentChatRef = (profileId, buddyId) => ref(db, `chats/${profileId}/${buddyId}`);
+export const getMessagesRefById = (messagesId) => ref(db, `messages/${messagesId}`);

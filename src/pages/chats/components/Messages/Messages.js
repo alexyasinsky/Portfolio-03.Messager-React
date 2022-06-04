@@ -8,48 +8,25 @@ import {useParams, Navigate} from "react-router-dom";
 
 
 import "./Messages.scss";
-import {useSelector} from "react-redux";
-import {selectMessagesByBuddyName} from "../../../../store/messages/selectors";
-import {selectChats} from "../../../../store/chats/selectors";
-import {onValue} from "@firebase/database";
-import {getMsgsRefById} from "../../../../services/firebase";
-
-function generateBuddyList(chats) {
-  return chats.reduce((acc, chat) => {
-    acc.push(chat.name);
-    return acc;
-  }, []);
-}
+import {useDispatch, useSelector} from "react-redux";
+import {selectMessages, selectMessagesByBuddyName} from "../../../../store/messages/selectors";
+import {clearMessages, initMessagesTrack, stopMessagesTrack} from "../../../../store/messages/actions";
 
 export default function Messages () {
 
-  // const {buddy} = useParams();
-  // const getMessages = useMemo(() => selectMessagesByBuddyName(buddy), [buddy]);
-  // const messages = useSelector(getMessages);
+  const dispatch = useDispatch();
+
   const {id} = useParams();
 
-  // const chats = useSelector(selectChats);
+  const messages = useSelector(selectMessages);
 
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    const unsubscribe = onValue(getMsgsRefById(id), (snapshot) => {
-      const val = snapshot.val();
-      if (!snapshot.val()?.exists) {
-        setMessages(null);
-      } else {
-        console.log(val.messageList);
-        setMessages(Object.values(val.messageList || {}));
-      }
-    });
-
-    return unsubscribe;
-  }, [id]);
-
-  // let buddies = generateBuddyList(chats);
-  // if (!buddies.includes(buddy)) {
-  //   return <Navigate replace to='/chats' />
-  // }
+  useEffect(()=> {
+      dispatch(initMessagesTrack(id));
+    return () => {
+      dispatch(clearMessages());
+      dispatch(stopMessagesTrack());
+    }
+  }, [id, dispatch]);
 
   return (
     <Grid container direction="column" rowSpacing={4}>

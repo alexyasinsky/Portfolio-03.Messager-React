@@ -3,36 +3,27 @@ import moment from "moment";
 import {Button, Grid, TextareaAutosize} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {addMessageWithReply} from "../../../../../store/messages/actions";
-import {selectName} from "../../../../../store/profile/selectors";
+import {selectName, selectProfile} from "../../../../../store/profile/selectors";
 import { onChildAdded, onValue, push } from "@firebase/database";
-import {auth, getMsgsListRefById} from "../../../../../services/firebase";
+import {getMessagesRefById} from "../../../../../services/firebase";
 
 export default function MessageForm ({id}) {
-  const author = useSelector(selectName);
+
   let [text, setText] = useState('');
+
+  const profile = useSelector(selectProfile);
 
   function handleText (event) {
     setText(event.target.value);
   }
 
-  const dispatch = useDispatch();
-
-  // function handleMessage(e) {
-  //   e.preventDefault();
-  //   const message = {
-  //     date: moment().format('LTS'),
-  //     author: author,
-  //     text: text
-  //   };
-  //   dispatch(addMessageWithReply(message, 'bot'))
-  //   setText('');
-  // }
   function handleMessage() {
-    push(getMsgsListRefById(id), {
-      author: auth.currentUser.email,
+    push(getMessagesRefById(id), {
+      author: profile.nickname,
       text,
-      id: `msg-${Date.now()}`,
+      date: moment().format('L LTS'),
     });
+    setText('');
   }
 
   const textAreaRef = useRef(null);

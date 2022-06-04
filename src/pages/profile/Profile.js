@@ -6,7 +6,7 @@ import {selectProfile} from "../../store/profile/selectors";
 import {logOut} from "../../services/firebase";
 import {ProfileForm} from "./components/ProfileForm/ProfileForm";
 import {useEffect} from "react";
-import {initProfileTrack, setNickNameFB, stopProfileTrack} from "../../store/profile/actions";
+import {clearProfile, initProfileTrack, setNickNameFB, stopProfileTrack} from "../../store/profile/actions";
 import {Avatar, Button, Typography} from "@mui/material";
 
 export default function Profile () {
@@ -17,6 +17,12 @@ export default function Profile () {
   const handleSubmit = (text) => {
     dispatch(setNickNameFB(text));
   };
+
+  const handleQuit = () => {
+    logOut().then(()=> {
+      dispatch(clearProfile());
+    });
+  }
 
   useEffect(() => {
     dispatch(initProfileTrack());
@@ -46,7 +52,7 @@ export default function Profile () {
       <Button
         variant="contained"
         color='error'
-        onClick={logOut}
+        onClick={handleQuit}
 
       >
         Выйти из профиля

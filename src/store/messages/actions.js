@@ -12,32 +12,36 @@
 // });
 
 import moment from "moment";
+import {onValue} from "@firebase/database";
+import {getProfileChatsRefById, getMessagesRefById} from "../../services/firebase";
 
-export const INIT_MESSAGES_STORE = 'MESSAGES::INIT_MESSAGES_STORE';
-export const ADD_MESSAGE = 'MESSAGES::ADD_MESSAGE';
+export const SET_MESSAGES = 'MESSAGES::SET_MESSAGES';
+export const CLEAR_MESSAGES = 'MESSAGES::CLEAR_MESSAGES';
 
-export const initMessagesStore = (buddyName) => ({
-  type: INIT_MESSAGES_STORE,
-  payload: buddyName
-});
+export const setMessages = (messages) => ({
+  type: SET_MESSAGES,
+  payload: messages
+})
 
-export const addMessage = (message, buddy) => ({
-  type: ADD_MESSAGE,
-  payload: {message, buddy}
-});
+export const clearMessages = () => ({
+  type: CLEAR_MESSAGES
+})
 
 
-let timeout;
+let unsubscribe;
 
-export const addMessageWithReply = (newMsg, buddy) => (dispatch) => {
-  dispatch(addMessage(newMsg, buddy));
-  clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    let message = {
-      date: moment().format('LTS'),
-      author: buddy,
-      text: `${newMsg.text}?`
-    };
-    dispatch(addMessage(message, buddy));
-  }, 1500);
+export const initMessagesTrack = (id) => (dispatch) => {
+  const unsubscribeMessages = onValue(getMessagesRefById(id), snapshot => {
+    const messages = snapshot.val();
+    delete messages.exists;
+    const messagesArray = Object.values(messages);
+    dispatch(setMessages(messagesArray));
+  });
+  unsubscribe = () => {
+    unsubscribeMessages();
+  }
 };
+
+export const stopMessagesTrack = () => () => {
+  unsubscribe();
+}

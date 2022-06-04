@@ -2,27 +2,23 @@ import { onValue, set } from "@firebase/database";
 import {auth, db, getUserNickNameRefById, getUsersRefById} from "../../services/firebase";
 import {ref} from "firebase/database";
 
-export const SET_NAME = "PROFILE::SET_NAME";
 export const SET_PROFILE = 'PROFILE::GET_PROFILE';
+export const CLEAR_PROFILE = 'PROFILE::CLEAR_PROFILE';
 
-
-export const setNickName = (nickname) => ({
-  type: SET_NAME,
-  payload: nickname,
-});
-
-export const setProfile = (profile) => ({
+const setProfile = (profile) => ({
   type: SET_PROFILE,
   payload: profile
-})
+});
 
+export const clearProfile = () => ({
+  type: CLEAR_PROFILE,
+});
 
 let unsubscribe;
 
 function getId() {
   return auth.currentUser.uid;
 }
-//--------------------------------
 
 export const initProfileTrack = () => (dispatch) => {
   const id = getId();
@@ -35,35 +31,12 @@ export const initProfileTrack = () => (dispatch) => {
   }
 };
 
-// let unsubscribe;
-//
-// //--------------------------------
-//
-// export const initProfileTrack = () => (dispatch) => {
-//   const unsubscribeName = onValue(userNameRef, (snapshot) => {
-//     dispatch(setName(snapshot.val()));
-//   });
-//   const unsubscribeShowName = onValue(userShowNameRef, (snapshot) => {
-//     dispatch(toggleCheckBox);
-//   });
-//
-//   unsubscribe = () => {
-//     unsubscribeName();
-//     unsubscribeShowName();
-//   };
-// };
-//
-//
 export const stopProfileTrack = () => () => {
   unsubscribe();
 };
-//
+
 export const setNickNameFB = (nickname) => () => {
   const id = getId();
   set(getUserNickNameRefById(id), nickname);
   set(ref(db, `nicknames/${nickname}`), id);
 };
-//
-// export const setShowName = (value) => () => {
-//   set(userShowNameRef, value);
-// };

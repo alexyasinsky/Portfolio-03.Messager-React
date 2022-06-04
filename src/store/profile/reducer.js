@@ -1,8 +1,6 @@
-import {SET_NAME, SET_PROFILE} from "./actions";
+import {SET_PROFILE, CLEAR_PROFILE} from "./actions";
 
-const initialState = {
-
-}
+const initialState = {};
 
 export const profileReducer = (state = initialState, {type, payload}) => {
   switch (type) {
@@ -11,12 +9,8 @@ export const profileReducer = (state = initialState, {type, payload}) => {
         ...state,
         ...payload
       };
-    case SET_NAME: {
-      return {
-        ...state,
-        name: payload,
-      };
-    }
+    case CLEAR_PROFILE:
+      return initialState;
     default:
       return state;
   }

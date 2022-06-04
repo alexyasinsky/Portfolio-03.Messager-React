@@ -15,7 +15,6 @@ import {
 } from "../../../../../../services/firebase";
 import {selectUsersList} from "../../../../../../store/chats/selectors";
 import {selectProfile} from "../../../../../../store/profile/selectors";
-import {setProfile} from "../../../../../../store/profile/actions";
 
 
 export default function ChatAddForm () {

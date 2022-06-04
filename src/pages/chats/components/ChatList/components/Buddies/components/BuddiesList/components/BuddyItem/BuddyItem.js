@@ -1,32 +1,43 @@
 import {Avatar, IconButton, ListItem, ListItemText} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import { remove, set } from "@firebase/database";
+import {useDispatch, useSelector} from "react-redux";
+import {get, remove, set} from "@firebase/database";
 
 import {deleteChat} from "../../../../../../../../../../store/chats/actions";
 
 import './BuddyItem.scss';
-import {initMessagesStore} from "../../../../../../../../../../store/messages/actions";
-import { getMsgsRefById} from "../../../../../../../../../../services/firebase";
+import {initMessagesStore, initMessagesTrack} from "../../../../../../../../../../store/messages/actions";
+import {getCurrentChatRef, getMsgsRefById, getUsersRefById} from "../../../../../../../../../../services/firebase";
+import {useEffect, useState} from "react";
+import {selectChats} from "../../../../../../../../../../store/chats/selectors";
+import {selectProfile} from "../../../../../../../../../../store/profile/selectors";
 
 export default function BuddyItem({buddyId}) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
- const buddy = {};
+  const profile = useSelector(selectProfile);
+
+  const chats = useSelector(selectChats);
+
+  const [buddy, setBuddy] = useState({});
+  useEffect(() => {
+    get(getUsersRefById(buddyId)).then(snapshot => {
+      setBuddy(snapshot.val());
+    });
+  }, [buddyId])
+
+
   async function handleDeleteButton() {
-  //   // await remove(getChatsRefById(buddy.id));
-  //   await set(getMsgsRefById(buddy.id), null);
-  //   // dispatch(deleteChat(buddy.name));
-  //   navigate('/chats');
+    await remove(getCurrentChatRef(profile.id, buddyId));
+    navigate('/chats');
   }
-  //
+
   function handleLink() {
-  //   // dispatch(initMessagesStore(buddy.name))
-  //   // navigate(`/chats/${buddy.name}`);
-  //   navigate(`/chats/${buddy.id}`);
+    let messagesId = chats[buddyId];
+    navigate(`/chats/${messagesId}`);
   }
 
   return (
@@ -36,9 +47,9 @@ export default function BuddyItem({buddyId}) {
         className="buddyItem__link"
       >
         <ListItem button>
-          <Avatar alt={buddy.name} src={buddy.avatar} className='buddyItem__avatar' />
+          <Avatar alt={buddy.nickname} src={buddy.avatar} className='buddyItem__avatar' />
           <ListItemText
-            primary={buddy.name}
+            primary={buddy.nickname}
           />
         </ListItem>
       </div>
