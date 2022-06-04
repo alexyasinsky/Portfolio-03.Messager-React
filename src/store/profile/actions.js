@@ -1,6 +1,5 @@
-import { onValue, set } from "@firebase/database";
-import {auth, db, getUserNickNameRefById, getUsersRefById} from "../../services/firebase";
-import {ref} from "firebase/database";
+import { onValue} from "@firebase/database";
+import {auth, getUsersRefById} from "../../services/firebase";
 
 export const SET_PROFILE = 'PROFILE::GET_PROFILE';
 export const CLEAR_PROFILE = 'PROFILE::CLEAR_PROFILE';
@@ -35,8 +34,4 @@ export const stopProfileTrack = () => () => {
   unsubscribe();
 };
 
-export const setNickNameFB = (nickname) => () => {
-  const id = getId();
-  set(getUserNickNameRefById(id), nickname);
-  set(ref(db, `nicknames/${nickname}`), id);
-};
+

@@ -1,15 +1,13 @@
 import {useState} from "react";
 import {Typography} from "@mui/material";
 import faker from "@faker-js/faker";
-import {push, set} from "@firebase/database";
+import {set} from "@firebase/database";
 
-import {LoginForm} from "./components/LoginForm";
-import {db, getUserChatsRefById, getUsersRefById, logIn, signUp, usersListRef} from "../../services/firebase";
+import {LoginForm} from "./components/LoginForm/LoginForm";
+import {getUsersRefById, logIn, signUp} from "../../services/firebase";
 import Area from "../../components/Area/Area";
-import {ref} from "firebase/database";
 
-
-export default function Home () {
+export default function Auth () {
   const [error, setError] = useState("");
   const onLogIn = async ({ login, pass }) => {
     try {
@@ -23,10 +21,12 @@ export default function Home () {
       const response = await signUp(login, pass);
       const id = response.user.uid;
       const email = response.user.email;
+      const nickname = response.user.email;
       await set(getUsersRefById(id), {
         id: id,
         email: email,
         avatar: faker.image.avatar(),
+        nickname: nickname
       });
     } catch (e) {
       setError(e.message);

@@ -1,12 +1,10 @@
-import {onValue, get} from "@firebase/database";
-import {getProfileChatsRefById, getUsersRefById} from "../../services/firebase";
+import {onValue} from "@firebase/database";
+import {getProfileChatsRefById} from "../../services/firebase";
 
 
 export const SET_BUDDIES = 'CHATS::SET_BUDDIES';
 export const SET_CHATS = 'CHATS::SET_CHATS';
-export const ADD_CHAT = "CHATS::ADD_CHAT";
-export const DELETE_CHAT = "CHATS::DELETE_CHAT";
-export const CLEAR_CHAT_STORE = "CLEAR_CHAT_STORE";
+export const CLEAR_CHATS_STORE = "CHATS::CLEAR_CHATS_STORE";
 
 
 const setBuddies = (buddies) => ({
@@ -19,18 +17,8 @@ const setChats = (chats) => ({
   payload: chats
 });
 
-export const addChat = (buddy) => ({
-  type: ADD_CHAT,
-  payload: buddy,
-});
-
-export const deleteChat = (name) => ({
-  type: DELETE_CHAT,
-  payload: name,
-});
-
-export const clearChatStore = () => ({
-  type: CLEAR_CHAT_STORE
+export const clearChatsStore = () => ({
+  type: CLEAR_CHATS_STORE
 })
 
 let unsubscribe;

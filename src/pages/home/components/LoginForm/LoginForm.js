@@ -29,7 +29,7 @@ export const LoginForm = ({ onLogin, onSignIn}) => {
   return (
     <>
       <div className='login__box'>
-        <TextField type="email" label='email 'value={login} onChange={handleChangeLogin} /> <br/>
+        <TextField type="email" label='email' value={login} onChange={handleChangeLogin} /> <br/>
         <TextField type="password" label='password' value={pass} onChange={handleChangePass} /> <br/>
       </div>
       <ButtonGroup variant="text" aria-label="text button group">

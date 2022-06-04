@@ -1,7 +1,7 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import {useEffect, useState} from "react";
 import {BottomNavigation, BottomNavigationAction, Grid, Paper} from "@mui/material";
-import { mdiChatOutline, mdiHomeCircle, mdiAccount } from '@mdi/js';
+import { mdiChatOutline, mdiHomeCircle } from '@mdi/js';
 import Icon from "@mdi/react";
 import { onAuthStateChanged } from "@firebase/auth";
 
@@ -11,31 +11,12 @@ import Chats from "./pages/chats/Chats";
 import Messages from './pages/chats/components/Messages/Messages';
 import Profile from './pages/profile/Profile';
 import Area from "./components/Area/Area";
-import Home from "./pages/home/Home";
+import Auth from "./pages/home/Auth";
 import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute";
 import {PublicRoute} from "./components/PublicRoute/PublicRoute";
 import {auth} from "./services/firebase";
-import {getUsersListDB} from "./store/chats/actions";
-import {useDispatch} from "react-redux";
 
 
-function highlightLinkButton(highlightFunc) {
-  const pathname = window.location.pathname;
-  let pathArray = pathname.split('/');
-  switch (pathArray[1]) {
-    case "":
-      highlightFunc(0);
-      break;
-    case "profile":
-      highlightFunc(1);
-      break;
-    case "chats":
-      highlightFunc(2);
-      break;
-    default:
-      break;
-  }
-}
 
 export default function App() {
 
@@ -51,44 +32,33 @@ export default function App() {
     setAuthed(false);
   };
 
-  const dispatch = useDispatch;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         handleLogin();
-        setHighlightLinkNumber(1);
 
       } else {
         handleLogout();
-        setHighlightLinkNumber(0);
       }
     });
-    return unsubscribe;
+    return unsubscribe();
   }, []);
 
-  useEffect(() => {
-    highlightLinkButton(setHighlightLinkNumber);
-  }, [highlightLinkNumber]);
+
 
   return (
-
         <div className="App">
         <Grid container spacing={2}>
           <Grid item xs={12}>
           <Routes>
-            <Route path="/" element={<PublicRoute authed={authed} />}>
-              <Route
-                path=""
-                element={<Home />}
-              />
-              <Route
-                path="signup"
-                element={<Home isSignUp />}
-              />
-            </Route>
-            <Route path='/profile' element={<PrivateRoute authed={authed}/>}>
-              <Route path="" element={<Profile/>} />
+            <Route path="/">
+              <Route path="" element={<PublicRoute authed={authed} />}>
+                <Route path="" element={<Auth/>} />
+              </Route>
+              <Route path='profile' element={<PrivateRoute authed={authed}/>}>
+                <Route path="" element={<Profile/>} />
+              </Route>
             </Route>
             <Route path='/chats' element={<PrivateRoute authed={authed}/>}>
               <Route path='' element={<Chats />}>
@@ -108,14 +78,8 @@ export default function App() {
               }}
             >
               <BottomNavigationAction
-                label="Home"
+                label="Auth"
                 icon={<Icon path={mdiHomeCircle}/>}
-                component={NavLink}
-                to='/'
-              />
-              <BottomNavigationAction
-                label="Profile"
-                icon={<Icon path={mdiAccount}/>}
                 component={NavLink}
                 to='/profile'
               />

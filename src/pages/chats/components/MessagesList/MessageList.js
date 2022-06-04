@@ -1,6 +1,6 @@
 import {Typography} from "@mui/material";
 import {useSelector} from "react-redux";
-import {selectProfile} from "../../../../../store/profile/selectors";
+import {selectProfile} from "../../../../store/profile/selectors";
 
 export default function MessageList ({messages}) {
   const profile = useSelector(selectProfile);

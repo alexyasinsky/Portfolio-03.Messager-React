@@ -37,7 +37,7 @@ export const logOut = async () => {
 };
 
 export const chatsRef = ref(db, "chats");
-export const msgsRef = ref(db, "messages");
+export const messagesRef = ref(db, 'messages');
 export const getUsersRefById = id => ref(db, `users/${id}`);
 export const getUserNickNameRefById = id => ref(db, `users/${id}/nickname`);
 export const getNicknameFromNicknames = nickname => ref(db, `nicknames/${nickname}`);

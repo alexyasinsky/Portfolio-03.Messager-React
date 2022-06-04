@@ -1,5 +1,5 @@
 import {List, Typography} from "@mui/material";
-import BuddiesList from "./components/BuddiesList/BuddiesList";
+import BuddiesList from "../BuddiesList/BuddiesList";
 
 import "./Buddies.scss";
 

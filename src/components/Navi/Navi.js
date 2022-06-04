@@ -40,7 +40,7 @@ export default function Navi() {
         }}
       >
         <BottomNavigationAction
-          label="Home"
+          label="Auth"
           icon={<Icon path={mdiHomeCircle}/>}
           component={NavLink}
           to='/'

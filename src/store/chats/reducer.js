@@ -1,5 +1,4 @@
-import faker from "@faker-js/faker";
-import {CLEAR_CHAT_STORE, SET_BUDDIES, SET_CHATS} from "./actions";
+import {CLEAR_CHATS_STORE, SET_BUDDIES, SET_CHATS} from "./actions";
 
 const initialState = {
   buddies: [],
@@ -18,7 +17,7 @@ export const chatsReducer = (state = initialState, {type, payload}) => {
         chats: {...payload},
         buddies: state.buddies
       }
-    case CLEAR_CHAT_STORE:
+    case CLEAR_CHATS_STORE:
       return initialState;
     default:
       return state;

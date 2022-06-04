@@ -1,20 +1,15 @@
 import {Button, Grid, TextField} from "@mui/material";
 import { useState } from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {onValue, push, remove, set, get} from "@firebase/database";
+import { useSelector} from "react-redux";
+import {push, set, get} from "@firebase/database";
 
-import {addChat} from "../../../../../../store/chats/actions";
 
 import "./ChatAddForm.scss";
 import {
-  auth, getMessagesIdRefFromChats,
-  getMsgsRefById, getNicknameFromNicknames, getUserChatRefByIdAndNickname,
-  getUsersRefById, msgsRef,
-  usersListRef,
-  usersRef
-} from "../../../../../../services/firebase";
-import {selectUsersList} from "../../../../../../store/chats/selectors";
-import {selectProfile} from "../../../../../../store/profile/selectors";
+  getMessagesIdRefFromChats,
+  getNicknameFromNicknames, messagesRef,
+} from "../../../../services/firebase";
+import {selectProfile} from "../../../../store/profile/selectors";
 
 
 export default function ChatAddForm () {
@@ -34,7 +29,7 @@ export default function ChatAddForm () {
             if (snapshot.exists()) {
               messagesId = snapshot.val();
             } else {
-              messagesId = push(msgsRef, {exists: true}).key;
+              messagesId = push(messagesRef, {exists: true}).key;
               set(getMessagesIdRefFromChats(buddyId, profile.id), messagesId);
             }
             set(getMessagesIdRefFromChats(profile.id, buddyId), messagesId);

@@ -3,7 +3,7 @@ import {Avatar, ListItem, ListItemText} from "@mui/material";
 
 import "./User.scss";
 import {useSelector} from "react-redux";
-import {selectProfile} from "../../../../../../store/profile/selectors";
+import {selectProfile} from "../../../../store/profile/selectors";
 
 export default function User () {
   const profile = useSelector(selectProfile);

@@ -1,16 +1,16 @@
 
-import MessageForm from "./components/MessageForm";
-import MessageList from "./components/MessageList";
+import MessageForm from "../MessageForm/MessageForm";
+import MessageList from "../MessagesList/MessageList";
 
-import {useEffect, useMemo, useState} from "react";
+import {useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
-import {useParams, Navigate} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 
 import "./Messages.scss";
 import {useDispatch, useSelector} from "react-redux";
-import {selectMessages, selectMessagesByBuddyName} from "../../../../store/messages/selectors";
-import {clearMessages, initMessagesTrack, stopMessagesTrack} from "../../../../store/messages/actions";
+import {selectMessages} from "../../../../store/messages/selectors";
+import {initMessagesTrack, stopMessagesTrack} from "../../../../store/messages/actions";
 
 export default function Messages () {
 
@@ -23,7 +23,6 @@ export default function Messages () {
   useEffect(()=> {
       dispatch(initMessagesTrack(id));
     return () => {
-      dispatch(clearMessages());
       dispatch(stopMessagesTrack());
     }
   }, [id, dispatch]);

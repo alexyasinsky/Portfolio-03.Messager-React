@@ -1,26 +1,29 @@
 import {useDispatch, useSelector} from "react-redux";
 
-// import {initProfileTrack, setNameFB, setShowName, stopProfileTrack} from "../../store/profile/actions";
 import Area from "../../components/Area/Area";
 import {selectProfile} from "../../store/profile/selectors";
-import {logOut} from "../../services/firebase";
+import {getNicknameFromNicknames, getUserNickNameRefById, logOut} from "../../services/firebase";
 import {ProfileForm} from "./components/ProfileForm/ProfileForm";
 import {useEffect} from "react";
-import {clearProfile, initProfileTrack, setNickNameFB, stopProfileTrack} from "../../store/profile/actions";
+import {clearProfile, initProfileTrack, stopProfileTrack} from "../../store/profile/actions";
 import {Avatar, Button, Typography} from "@mui/material";
+import {set} from "@firebase/database";
+import {clearChatsStore} from "../../store/chats/actions";
 
 export default function Profile () {
 
   const profile = useSelector(selectProfile);
   const dispatch = useDispatch();
 
-  const handleSubmit = (text) => {
-    dispatch(setNickNameFB(text));
+  const handleSubmit = (nickname) => {
+      set(getUserNickNameRefById(profile.id), nickname);
+      set(getNicknameFromNicknames(nickname), profile.id);
   };
 
   const handleQuit = () => {
     logOut().then(()=> {
       dispatch(clearProfile());
+      dispatch(clearChatsStore())
     });
   }
 

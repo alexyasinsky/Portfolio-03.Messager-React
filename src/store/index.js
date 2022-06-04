@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "gbMessenger",
   storage,
-  whitelist: ["messages", "chats"],
+  whitelist: ["profile", "chats"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

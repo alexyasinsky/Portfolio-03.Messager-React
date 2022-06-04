@@ -1,12 +1,12 @@
 import {Paper} from "@mui/material";
-import Buddies from "./components/Buddies/Buddies";
-import ChatAddForm from "./components/ChatAddForm/ChatAddForm";
-import User from "./components/User/User";
+import Buddies from "../Buddies/Buddies";
+import ChatAddForm from "../ChatAddForm/ChatAddForm";
+import User from "../User/User";
 
 import "./ChatList.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {clearChatStore, initChatsTrack, stopChatsTrack} from "../../../../store/chats/actions";
+import {initChatsTrack, stopChatsTrack} from "../../../../store/chats/actions";
 import {selectProfile} from "../../../../store/profile/selectors";
 
 
@@ -15,12 +15,9 @@ import {selectProfile} from "../../../../store/profile/selectors";
 export default function ChatList () {
   const profile = useSelector(selectProfile);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(initChatsTrack(profile.id));
-
     return () => {
-      dispatch(clearChatStore());
       dispatch(stopChatsTrack());
     };
   }, [profile, dispatch]);

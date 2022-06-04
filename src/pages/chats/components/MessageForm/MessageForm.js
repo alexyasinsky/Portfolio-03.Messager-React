@@ -1,11 +1,10 @@
 import {useEffect, useRef, useState} from "react";
 import moment from "moment";
 import {Button, Grid, TextareaAutosize} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {addMessageWithReply} from "../../../../../store/messages/actions";
-import {selectName, selectProfile} from "../../../../../store/profile/selectors";
-import { onChildAdded, onValue, push } from "@firebase/database";
-import {getMessagesRefById} from "../../../../../services/firebase";
+import {useSelector} from "react-redux";
+import {selectProfile} from "../../../../store/profile/selectors";
+import { push } from "@firebase/database";
+import {getMessagesRefById} from "../../../../services/firebase";
 
 export default function MessageForm ({id}) {
 
