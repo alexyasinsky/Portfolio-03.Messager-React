@@ -16,36 +16,21 @@ import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute";
 import {PublicRoute} from "./components/PublicRoute/PublicRoute";
 import {auth} from "./services/firebase";
 
-
-
 export default function App() {
 
   const [highlightLinkNumber, setHighlightLinkNumber] = useState(0);
 
   const [authed, setAuthed] = useState(false);
 
-  const handleLogin = () => {
-
-    setAuthed(true);
-  };
-  const handleLogout = () => {
-    setAuthed(false);
-  };
-
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    return onAuthStateChanged(auth, (user) => {
       if (user) {
-        handleLogin();
-
+        setAuthed(true);
       } else {
-        handleLogout();
+        setAuthed(false);
       }
     });
-    return unsubscribe();
   }, []);
-
-
 
   return (
         <div className="App">

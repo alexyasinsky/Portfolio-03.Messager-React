@@ -12,6 +12,7 @@ export default function Auth () {
   const onLogIn = async ({ login, pass }) => {
     try {
       await logIn(login, pass);
+      console.log('logged in');
     } catch (e) {
       setError(e.message);
     }
