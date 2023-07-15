@@ -1,5 +1,4 @@
 {
-  "homepage": "https://alexyasinsky.github.io/Portfolio-03.Messager-React/",
   "name": "messager",
   "version": "0.1.0",
   "private": true,
@@ -14,9 +13,10 @@
     "@testing-library/react": "^13.0.1",
     "@testing-library/user-event": "^13.5.0",
     "@types/react": "^18.0.5",
+    "env-cmd": "^10.1.0",
     "firebase": "^9.8.1",
     "moment": "^2.29.2",
-    "node-sass": "^7.0.1",
+    "node-sass": "^7.0.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",

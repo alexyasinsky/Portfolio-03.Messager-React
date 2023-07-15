@@ -12,7 +12,6 @@ export default function Auth () {
   const onLogIn = async ({ login, pass }) => {
     try {
       await logIn(login, pass);
-      console.log('logged in');
     } catch (e) {
       setError(e.message);
     }
@@ -22,7 +21,7 @@ export default function Auth () {
       const response = await signUp(login, pass);
       const id = response.user.uid;
       const email = response.user.email;
-      const nickname = response.user.email;
+      const nickname = 'Noname';
       await set(getUsersRefById(id), {
         id: id,
         email: email,

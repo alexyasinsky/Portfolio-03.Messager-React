@@ -11,7 +11,7 @@ import Chats from "./pages/chats/Chats";
 import Messages from './pages/chats/components/Messages/Messages';
 import Profile from './pages/profile/Profile';
 import Area from "./components/Area/Area";
-import Auth from "./pages/home/Auth";
+import Auth from "./pages/auth/Auth";
 import {PrivateRoute} from "./components/PrivateRoute/PrivateRoute";
 import {PublicRoute} from "./components/PublicRoute/PublicRoute";
 import {auth} from "./services/firebase";
@@ -22,12 +22,16 @@ export default function App() {
 
   const [authed, setAuthed] = useState(false);
 
+  const [homePageLabel, setHomePageLabel] = useState('Auth')
+
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthed(true);
+        setHomePageLabel('Profile');
       } else {
         setAuthed(false);
+        setHomePageLabel('Auth');
       }
     });
   }, []);
@@ -59,11 +63,13 @@ export default function App() {
               showLabels
               value={highlightLinkNumber}
               onChange={(event, newValue) => {
-                setHighlightLinkNumber(newValue);
+                if (authed) {
+                  setHighlightLinkNumber(newValue);
+                }
               }}
             >
               <BottomNavigationAction
-                label="Auth"
+                label={homePageLabel}
                 icon={<Icon path={mdiHomeCircle}/>}
                 component={NavLink}
                 to='/profile'

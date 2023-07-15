@@ -1,5 +1,5 @@
 import {Button, Grid, TextField} from "@mui/material";
-import { useState } from 'react';
+import {useState} from 'react';
 import { useSelector} from "react-redux";
 import {push, set, get} from "@firebase/database";
 
@@ -16,16 +16,17 @@ export default function ChatAddForm () {
 
   const [buddyNickname, setBuddyNickname] = useState('');
 
+
   const profile = useSelector(selectProfile);
 
-  // const dispatch = useDispatch();
-
   async function handleAddButton() {
-    get(getNicknameFromNicknames(buddyNickname)).then(snapshot => {
-      if (snapshot.exists()) {
-        const buddyId = snapshot.val();
-        get(getMessagesIdRefFromChats(buddyId, profile.id)).then(snapshot => {
-          let messagesId;
+    const regexp = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
+    if (regexp.test(buddyNickname)) {
+      get(getNicknameFromNicknames(buddyNickname)).then(snapshot => {
+        if (snapshot.exists()) {
+          const buddyId = snapshot.val();
+          get(getMessagesIdRefFromChats(buddyId, profile.id)).then(snapshot => {
+            let messagesId;
             if (snapshot.exists()) {
               messagesId = snapshot.val();
             } else {
@@ -33,12 +34,16 @@ export default function ChatAddForm () {
               set(getMessagesIdRefFromChats(buddyId, profile.id), messagesId);
             }
             set(getMessagesIdRefFromChats(profile.id, buddyId), messagesId);
-        })
-        setBuddyNickname('');
-      } else {
-        alert('Пользователь с таким ником не зарегистрирован');
-      }
-    });
+          })
+          setBuddyNickname('');
+        } else {
+          alert('Пользователь с таким ником не зарегистрирован');
+
+        }
+      });
+    } else {
+      alert('Только буквы и цифры!');
+    }
   }
 
 

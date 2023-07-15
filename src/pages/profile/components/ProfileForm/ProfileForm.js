@@ -35,7 +35,7 @@ export const ProfileForm = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} style={formStyle}>
-      <Typography variant='h6'>Ввести/изменить ник</Typography>
+      <Typography variant='h6'>Изменить ник</Typography>
       <TextField value={value} onChange={handleChange} inputRef={inputRef} />
       <br/>
       <br/>
